@@ -8,7 +8,8 @@ export default class ProductUpdater extends Updater {
     const newConfig = normalizeConfig(config);
     if (newConfig.storefrontId || newConfig.storefrontVariantId) {
       this.component.storefrontId = newConfig.storefrontId || this.component.storefrontId;
-      this.component.defaultStorefrontVariantId = newConfig.storefrontVariantId || this.component.defaultStorefrontVariantId;
+      this.component.defaultStorefrontVariantId =
+        newConfig.storefrontVariantId || this.component.defaultStorefrontVariantId;
       this.component.init();
       return;
     }
@@ -25,7 +26,11 @@ export default class ProductUpdater extends Updater {
           this.component.view.iframe.setWidth(this.component.options.width);
         }
 
-        if (layout === 'horizontal' && this.component.view.iframe.width && this.component.view.iframe.width !== MAX_WIDTH) {
+        if (
+          layout === 'horizontal' &&
+          this.component.view.iframe.width &&
+          this.component.view.iframe.width !== MAX_WIDTH
+        ) {
           this.component.view.iframe.setWidth(MAX_WIDTH);
         }
 
@@ -55,11 +60,13 @@ export default class ProductUpdater extends Updater {
       this.component.cart.updateConfig(config);
     }
     if (this.component.modal) {
-      this.component.modal.updateConfig(Object.assign({}, config, {
-        options: Object.assign({}, this.component.config, {
-          product: this.component.modalProductConfig,
-        }),
-      }));
+      this.component.modal.updateConfig(
+        Object.assign({}, config, {
+          options: Object.assign({}, this.component.config, {
+            product: this.component.modalProductConfig,
+          }),
+        })
+      );
     }
   }
 }

@@ -2,12 +2,12 @@ import merge from '../utils/merge';
 import Component from '../component';
 import ToggleView from '../views/toggle';
 
-
 export default class CartToggle extends Component {
   constructor(config, props) {
     super(config, props);
     this.typeKey = 'toggle';
-    this.node = config.node || this.props.cart.node.parentNode.insertBefore(document.createElement('div'), this.props.cart.node);
+    this.node =
+      config.node || this.props.cart.node.parentNode.insertBefore(document.createElement('div'), this.props.cart.node);
     this.view = new ToggleView(this);
   }
 
@@ -29,9 +29,13 @@ export default class CartToggle extends Component {
   }
 
   get DOMEvents() {
-    return merge({}, {
-      click: this.toggleCart.bind(this),
-    }, this.options.DOMEvents);
+    return merge(
+      {},
+      {
+        click: this.toggleCart.bind(this),
+      },
+      this.options.DOMEvents
+    );
   }
 
   toggleCart(evt) {

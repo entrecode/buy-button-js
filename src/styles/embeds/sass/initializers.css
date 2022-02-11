@@ -1,4 +1,11 @@
-html, body, h1, h2, h3, h4, h5, p {
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
   padding: 0;
   margin: 0;
 }
@@ -13,7 +20,7 @@ html {
 }
 
 html {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.2;
   color: var(--color-body);
@@ -44,7 +51,7 @@ input {
 
 .clearfix {
   &:after {
-    content: "";
+    content: '';
     display: table;
     clear: both;
   }

@@ -1,5 +1,5 @@
 function getUnitString(unitEnum) {
-  if(unitEnum === 'L') {
+  if (unitEnum === 'L') {
     return 'L';
   } else if (unitEnum === 'M3') {
     return 'm³';
@@ -18,6 +18,5 @@ function getUnitPriceBaseUnit(referenceValue, referenceUnit) {
 
   return `${referenceValue}${unitString}`;
 }
-
 
 export default getUnitPriceBaseUnit;

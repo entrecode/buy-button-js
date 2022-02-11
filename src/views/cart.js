@@ -1,5 +1,5 @@
 import View from '../view';
-import {addClassToElement, removeClassFromElement} from '../utils/element-class';
+import { addClassToElement, removeClassFromElement } from '../utils/element-class';
 
 export default class CartView extends View {
   constructor(component) {

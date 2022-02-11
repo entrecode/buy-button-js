@@ -16,7 +16,6 @@ function isArray(arg) {
  */
 
 export default class ProductSet extends Component {
-
   /**
    * create ProductSet
    * @param {Object} config - configuration object.
@@ -36,7 +35,7 @@ export default class ProductSet extends Component {
     this.products = [];
     this.cart = null;
     this.page = 1;
-    this.nextModel = {products: []};
+    this.nextModel = { products: [] };
     this.updater = new ProductSetUpdater(this);
     this.view = new ProductSetView(this);
   }
@@ -62,10 +61,14 @@ export default class ProductSet extends Component {
    * @return {Object}
    */
   get DOMEvents() {
-    return Object.assign({}, {
-      click: this.props.closeCart.bind(this),
-      [`click ${this.selectors.productSet.paginationButton}`]: this.nextPage.bind(this),
-    }, this.options.DOMEvents);
+    return Object.assign(
+      {},
+      {
+        click: this.props.closeCart.bind(this),
+        [`click ${this.selectors.productSet.paginationButton}`]: this.nextPage.bind(this),
+      },
+      this.options.DOMEvents
+    );
   }
 
   /**
@@ -73,7 +76,9 @@ export default class ProductSet extends Component {
    * @return {Object} Template instance
    */
   get paginationTemplate() {
-    this._paginationTemplate = this._paginationTemplate || new Template({pagination: this.options.templates.pagination}, {pagination: true}, ['pagination']);
+    this._paginationTemplate =
+      this._paginationTemplate ||
+      new Template({ pagination: this.options.templates.pagination }, { pagination: true }, ['pagination']);
     return this._paginationTemplate;
   }
 
@@ -83,7 +88,9 @@ export default class ProductSet extends Component {
    */
   get trackingInfo() {
     const contents = this.config.product.contents;
-    const contentString = Object.keys(contents).filter((key) => contents[key]).toString();
+    const contentString = Object.keys(contents)
+      .filter((key) => contents[key])
+      .toString();
 
     const config = {
       destination: this.config.product.buttonDestination,
@@ -189,7 +196,7 @@ export default class ProductSet extends Component {
    */
   showPagination() {
     return this.props.client.fetchNextPage(this.model.products).then((data) => {
-      this.nextModel = {products: data.model};
+      this.nextModel = { products: data.model };
       this.view.renderChild(this.classes.productSet.paginationButton, this.paginationTemplate);
       this.view.resize();
       return;

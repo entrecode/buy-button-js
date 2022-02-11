@@ -1,4 +1,4 @@
-@import "./select";
+@import './select';
 
 .shopify-buy__product {
   overflow: hidden;
@@ -35,7 +35,7 @@
 
 .shopify-buy__layout-horizontal {
   & .shopify-buy__product__title {
-    margin-top: calc(var(--gutter) * (2/3));
+    margin-top: calc(var(--gutter) * (2 / 3));
   }
 }
 
@@ -60,7 +60,7 @@
   & ul,
   & ol,
   & img {
-    margin-bottom: calc(var(--gutter) * (2/3));
+    margin-bottom: calc(var(--gutter) * (2 / 3));
 
     &:last-child {
       margin-bottom: 0;
@@ -285,7 +285,6 @@
   }
 }
 
-
 .shopify-buy__carousel {
   font-size: 0;
   text-align: center;
@@ -306,12 +305,12 @@
   padding: 0;
   border: none;
 
-  &:nth-child(n+7) {
+  &:nth-child(n + 7) {
     margin-top: var(--gutter);
   }
 
   &:before {
-    content: "";
+    content: '';
     display: block;
     padding-top: 100%;
   }

@@ -5,8 +5,8 @@ export default class CheckoutNavigator {
 
   get params() {
     const config = Object.assign({}, this.config.window, {
-      left: (window.outerWidth / 2) - 200,
-      top: (window.outerHeight / 2) - 300,
+      left: window.outerWidth / 2 - 200,
+      top: window.outerHeight / 2 - 300,
     });
 
     return Object.keys(config).reduce((acc, key) => `${acc}${key}=${config[key]},`, '');

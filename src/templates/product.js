@@ -9,7 +9,8 @@ const quantityTemplate = `<div class="{{data.classes.product.quantity}} {{data.q
               <button class="{{data.classes.product.quantityButton}} {{data.classes.product.quantityIncrement}}" type="button" data-element="product.quantityIncrement"><span>+</span><span class="visuallyhidden">Increment</span></button>
             {{/data.contents.quantityIncrement}}
            </div>`;
-const buttonTemplate = '<div class="{{data.classes.product.buttonWrapper}}" data-element="product.buttonWrapper"><button {{#data.buttonDisabled}}disabled{{/data.buttonDisabled}} class="{{data.classes.product.button}} {{data.buttonClass}}" data-element="product.button">{{data.buttonText}}</button></div>';
+const buttonTemplate =
+  '<div class="{{data.classes.product.buttonWrapper}}" data-element="product.buttonWrapper"><button {{#data.buttonDisabled}}disabled{{/data.buttonDisabled}} class="{{data.classes.product.button}} {{data.buttonClass}}" data-element="product.button">{{data.buttonText}}</button></div>';
 
 const productTemplate = {
   img: '{{#data.currentImage.srcLarge}}<div class="{{data.classes.product.imgWrapper}}" data-element="product.imgWrapper"><img alt="{{data.currentImage.altText}}" data-element="product.img" class="{{data.classes.product.img}}" src="{{data.currentImage.srcLarge}}" /></div>{{/data.currentImage.srcLarge}}',
@@ -32,8 +33,10 @@ const productTemplate = {
                       </div>
                     </div>`,
   title: '<h1 class="{{data.classes.product.title}}" data-element="product.title">{{data.title}}</h1>',
-  variantTitle: '{{#data.hasVariants}}<h2 class="{{data.classes.product.variantTitle}}" data-element="product.variantTitle">{{data.selectedVariant.title}}</h2>{{/data.hasVariants}}',
-  options: '{{#data.hasVariants}}<div class="{{data.classes.product.options}}" data-element="product.options">{{{data.optionsHtml}}}</div>{{/data.hasVariants}}',
+  variantTitle:
+    '{{#data.hasVariants}}<h2 class="{{data.classes.product.variantTitle}}" data-element="product.variantTitle">{{data.selectedVariant.title}}</h2>{{/data.hasVariants}}',
+  options:
+    '{{#data.hasVariants}}<div class="{{data.classes.product.options}}" data-element="product.options">{{{data.optionsHtml}}}</div>{{/data.hasVariants}}',
   price: `<div class="{{data.classes.product.prices}}" data-element="product.prices">
             {{#data.selectedVariant}}
             <span class="visuallyhidden">{{data.priceAccessibilityLabel}}&nbsp;</span>
@@ -50,7 +53,8 @@ const productTemplate = {
             {{/data.showUnitPrice}}
             {{/data.selectedVariant}}
           </div>`,
-  description: '<div class="{{data.classes.product.description}}" data-element="product.description">{{{data.descriptionHtml}}}</div>',
+  description:
+    '<div class="{{data.classes.product.description}}" data-element="product.description">{{{data.descriptionHtml}}}</div>',
   button: buttonTemplate,
   quantity: quantityTemplate,
   buttonWithQuantity: `<div class="{{data.classes.product.buttonWithQuantity}}" data-element="product.buttonWithQuantity">${quantityTemplate}${buttonTemplate}</div>`,

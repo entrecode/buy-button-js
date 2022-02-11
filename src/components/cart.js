@@ -6,8 +6,8 @@ import Checkout from './checkout';
 import formatMoney from '../utils/money';
 import CartView from '../views/cart';
 import CartUpdater from '../updaters/cart';
-import {addClassToElement} from '../utils/element-class';
-import {removeTrapFocus} from '../utils/focus';
+import { addClassToElement } from '../utils/element-class';
+import { removeTrapFocus } from '../utils/focus';
 
 export const NO_IMG_URL = '//sdks.shopifycdn.com/buy-button/latest/no-image.jpg';
 
@@ -19,7 +19,6 @@ const CART_TARGET_SELECTION = 'ALL';
  * @extends Component.
  */
 export default class Cart extends Component {
-
   /**
    * create Cart.
    * @param {Object} config - configuration object.
@@ -28,29 +27,39 @@ export default class Cart extends Component {
   constructor(config, props) {
     super(config, props);
     this.addVariantToCart = this.addVariantToCart.bind(this);
-    this.childTemplate = new Template(this.config.lineItem.templates, this.config.lineItem.contents, this.config.lineItem.order);
+    this.childTemplate = new Template(
+      this.config.lineItem.templates,
+      this.config.lineItem.contents,
+      this.config.lineItem.order
+    );
     this.node = config.node || document.body.appendChild(document.createElement('div'));
     this.isVisible = this.options.startOpen;
     this.lineItemCache = [];
     this.moneyFormat = this.globalConfig.moneyFormat;
     this.checkout = new Checkout(this.config);
-    const toggles = this.globalConfig.toggles || [{
-      node: this.node.parentNode.insertBefore(document.createElement('div'), this.node),
-    }];
+    const toggles = this.globalConfig.toggles || [
+      {
+        node: this.node.parentNode.insertBefore(document.createElement('div'), this.node),
+      },
+    ];
     this.toggles = toggles.map((toggle) => {
-      return new CartToggle(merge({}, config, toggle), Object.assign({}, this.props, {cart: this}));
+      return new CartToggle(merge({}, config, toggle), Object.assign({}, this.props, { cart: this }));
     });
     this.updater = new CartUpdater(this);
     this.view = new CartView(this);
   }
 
   createToggles(config) {
-    this.toggles = this.toggles.concat(config.toggles.map((toggle) => {
-      return new CartToggle(merge({}, config, toggle), Object.assign({}, this.props, {cart: this}));
-    }));
-    return Promise.all(this.toggles.map((toggle) => {
-      return toggle.init({lineItems: this.lineItems});
-    }));
+    this.toggles = this.toggles.concat(
+      config.toggles.map((toggle) => {
+        return new CartToggle(merge({}, config, toggle), Object.assign({}, this.props, { cart: this }));
+      })
+    );
+    return Promise.all(
+      this.toggles.map((toggle) => {
+        return toggle.init({ lineItems: this.lineItems });
+      })
+    );
   }
 
   /**
@@ -66,14 +75,18 @@ export default class Cart extends Component {
    * @return {Object}
    */
   get DOMEvents() {
-    return merge({}, {
-      [`click ${this.selectors.cart.close}`]: this.props.closeCart.bind(this),
-      [`click ${this.selectors.lineItem.quantityIncrement}`]: this.onQuantityIncrement.bind(this, 1),
-      [`click ${this.selectors.lineItem.quantityDecrement}`]: this.onQuantityIncrement.bind(this, -1),
-      [`click ${this.selectors.cart.button}`]: this.onCheckout.bind(this),
-      [`blur ${this.selectors.lineItem.quantityInput}`]: this.onQuantityBlur.bind(this),
-      [`blur ${this.selectors.cart.note}`]: this.setNote.bind(this),
-    }, this.options.DOMEvents);
+    return merge(
+      {},
+      {
+        [`click ${this.selectors.cart.close}`]: this.props.closeCart.bind(this),
+        [`click ${this.selectors.lineItem.quantityIncrement}`]: this.onQuantityIncrement.bind(this, 1),
+        [`click ${this.selectors.lineItem.quantityDecrement}`]: this.onQuantityIncrement.bind(this, -1),
+        [`click ${this.selectors.cart.button}`]: this.onCheckout.bind(this),
+        [`blur ${this.selectors.lineItem.quantityInput}`]: this.onQuantityBlur.bind(this),
+        [`blur ${this.selectors.cart.note}`]: this.setNote.bind(this),
+      },
+      this.options.DOMEvents
+    );
   }
 
   /**
@@ -95,19 +108,24 @@ export default class Cart extends Component {
       const formattedPrice = formatMoney(fullPrice, this.moneyFormat);
       const discountAllocations = data.discountAllocations;
 
-      const {discounts, totalDiscount} = discountAllocations.reduce((discountAcc, discount) => {
-        const targetSelection = discount.discountApplication.targetSelection;
-        if (LINE_ITEM_TARGET_SELECTIONS.indexOf(targetSelection) > -1) {
-          const discountAmount = discount.allocatedAmount.amount;
-          const discountDisplayText = discount.discountApplication.title || discount.discountApplication.code;
-          discountAcc.totalDiscount += discountAmount;
-          discountAcc.discounts.push({discount: `${discountDisplayText} (-${formatMoney(discountAmount, this.moneyFormat)})`});
+      const { discounts, totalDiscount } = discountAllocations.reduce(
+        (discountAcc, discount) => {
+          const targetSelection = discount.discountApplication.targetSelection;
+          if (LINE_ITEM_TARGET_SELECTIONS.indexOf(targetSelection) > -1) {
+            const discountAmount = discount.allocatedAmount.amount;
+            const discountDisplayText = discount.discountApplication.title || discount.discountApplication.code;
+            discountAcc.totalDiscount += discountAmount;
+            discountAcc.discounts.push({
+              discount: `${discountDisplayText} (-${formatMoney(discountAmount, this.moneyFormat)})`,
+            });
+          }
+          return discountAcc;
+        },
+        {
+          discounts: [],
+          totalDiscount: 0,
         }
-        return discountAcc;
-      }, {
-        discounts: [],
-        totalDiscount: 0,
-      });
+      );
       data.discounts = discounts.length > 0 ? discounts : null;
       data.formattedFullPrice = totalDiscount > 0 ? formattedPrice : null;
       data.formattedActualPrice = formatMoney(fullPrice - totalDiscount, this.moneyFormat);
@@ -117,7 +135,13 @@ export default class Cart extends Component {
       data.text = this.config.lineItem.text;
       data.lineItemImage = this.imageForLineItem(data);
       data.variantTitle = data.variant.title === 'Default Title' ? '' : data.variant.title;
-      return acc + this.childTemplate.render({data}, (output) => `<li id="${lineItem.id}" class=${this.classes.lineItem.lineItem}>${output}</li>`);
+      return (
+        acc +
+        this.childTemplate.render(
+          { data },
+          (output) => `<li id="${lineItem.id}" class=${this.classes.lineItem.lineItem}>${output}</li>`
+        )
+      );
     }, '');
   }
 
@@ -148,7 +172,9 @@ export default class Cart extends Component {
     if (!this.model) {
       return formatMoney(0, this.moneyFormat);
     }
-    const total = this.options.contents.discounts ? this.model.subtotalPriceV2.amount : this.model.lineItemsSubtotalPrice.amount;
+    const total = this.options.contents.discounts
+      ? this.model.subtotalPriceV2.amount
+      : this.model.lineItemsSubtotalPrice.amount;
     return formatMoney(total, this.moneyFormat);
   }
 
@@ -168,7 +194,7 @@ export default class Cart extends Component {
 
         if (discountValue > 0) {
           const discountDisplayText = discount.title || discount.code;
-          discountArr.push({text: discountDisplayText, amount: `-${formatMoney(discountValue, this.moneyFormat)}`});
+          discountArr.push({ text: discountDisplayText, amount: `-${formatMoney(discountValue, this.moneyFormat)}` });
         }
       }
       return discountArr;
@@ -232,18 +258,21 @@ export default class Cart extends Component {
   fetchData() {
     const checkoutId = localStorage.getItem(this.localStorageCheckoutKey);
     if (checkoutId) {
-      return this.props.client.checkout.fetch(checkoutId).then((checkout) => {
-        this.model = checkout;
-        if (checkout.completedAt) {
+      return this.props.client.checkout
+        .fetch(checkoutId)
+        .then((checkout) => {
+          this.model = checkout;
+          if (checkout.completedAt) {
+            return this.removeCheckout();
+          }
+          return this.sanitizeCheckout(checkout).then((newCheckout) => {
+            this.updateCache(newCheckout.lineItems);
+            return newCheckout;
+          });
+        })
+        .catch(() => {
           return this.removeCheckout();
-        }
-        return this.sanitizeCheckout(checkout).then((newCheckout) => {
-          this.updateCache(newCheckout.lineItems);
-          return newCheckout;
         });
-      }).catch(() => {
-        return this.removeCheckout();
-      });
     } else {
       return Promise.resolve(null);
     }
@@ -278,13 +307,15 @@ export default class Cart extends Component {
         this.moneyFormat = moneyFormat;
       });
     }
-    return super.init(data)
+    return super
+      .init(data)
       .then((cart) => {
         return this.toggles.map((toggle) => {
           const lineItems = cart.model ? cart.model.lineItems : [];
-          return toggle.init({lineItems});
+          return toggle.init({ lineItems });
         });
-      }).then(() => this);
+      })
+      .then(() => this);
   }
 
   destroy() {
@@ -345,12 +376,16 @@ export default class Cart extends Component {
     const id = target.getAttribute('data-line-item-id');
     const item = this.model.lineItems.find((lineItem) => lineItem.id === id);
     const newQty = fn(item.quantity);
-    return this.props.tracker.trackMethod(this.updateItem.bind(this), 'Update Cart', this.cartItemTrackingInfo(item, newQty))(id, newQty);
+    return this.props.tracker.trackMethod(
+      this.updateItem.bind(this),
+      'Update Cart',
+      this.cartItemTrackingInfo(item, newQty)
+    )(id, newQty);
   }
 
   setNote(evt) {
     const note = evt.target.value;
-    return this.props.client.checkout.updateAttributes(this.model.id, {note}).then((checkout) => {
+    return this.props.client.checkout.updateAttributes(this.model.id, { note }).then((checkout) => {
       this.model = checkout;
       return checkout;
     });
@@ -379,7 +414,9 @@ export default class Cart extends Component {
    * @param {Number} qty - quantity for line item.
    */
   updateCacheItem(lineItemId, quantity) {
-    if (this.lineItemCache.length === 0) { return; }
+    if (this.lineItemCache.length === 0) {
+      return;
+    }
     const lineItem = this.lineItemCache.find((item) => {
       return lineItemId === item.id;
     });
@@ -394,7 +431,7 @@ export default class Cart extends Component {
    */
   updateItem(id, quantity) {
     this._userEvent('updateItemQuantity');
-    const lineItem = {id, quantity};
+    const lineItem = { id, quantity };
     const lineItemEl = this.view.document.getElementById(id);
     if (lineItemEl) {
       const quantityEl = lineItemEl.getElementsByClassName(this.classes.lineItem.quantity)[0];
@@ -427,7 +464,7 @@ export default class Cart extends Component {
     if (openCart) {
       this.open();
     }
-    const lineItem = {variantId: variant.id, quantity};
+    const lineItem = { variantId: variant.id, quantity };
     if (this.model) {
       return this.props.client.checkout.addLineItems(this.model.id, [lineItem]).then((checkout) => {
         this.model = checkout;
@@ -441,9 +478,7 @@ export default class Cart extends Component {
       });
     } else {
       const input = {
-        lineItems: [
-          lineItem,
-        ],
+        lineItems: [lineItem],
       };
       return this.props.client.checkout.create(input).then((checkout) => {
         localStorage.setItem(this.localStorageCheckoutKey, checkout.id);

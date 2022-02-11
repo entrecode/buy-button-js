@@ -2,8 +2,8 @@ import morphdom from 'morphdom';
 import Template from './template';
 import Iframe from './iframe';
 import styles from './styles/embeds/all';
-import {addClassToElement, removeClassFromElement} from './utils/element-class';
-import {trapFocus} from './utils/focus';
+import { addClassToElement, removeClassFromElement } from './utils/element-class';
+import { trapFocus } from './utils/focus';
 
 const delegateEventSplitter = /^(\S+)\s*(.*)$/;
 const ESC_KEY = 27;
@@ -13,7 +13,11 @@ export default class View {
     this.component = component;
     this.iframe = null;
     this.node = this.component.node;
-    this.template = new Template(this.component.options.templates, this.component.options.contents, this.component.options.order);
+    this.template = new Template(
+      this.component.options.templates,
+      this.component.options.contents,
+      this.component.options.order
+    );
     this.eventsBound = false;
   }
 
@@ -40,7 +44,7 @@ export default class View {
    */
   render() {
     this.component._userEvent('beforeRender');
-    const html = this.template.render({data: this.component.viewData}, (data) => {
+    const html = this.template.render({ data: this.component.viewData }, (data) => {
       return this.wrapTemplate(data);
     });
     if (!this.wrapper) {
@@ -126,7 +130,7 @@ export default class View {
   renderChild(className, template) {
     const selector = `.${className.split(' ').join('.')}`;
     const node = this.wrapper.querySelector(selector);
-    const html = template.render({data: this.component.viewData});
+    const html = template.render({ data: this.component.viewData });
     this.updateNode(node, html);
   }
 
@@ -270,21 +274,24 @@ export default class View {
   }
 
   _on(eventName, selector, fn) {
+    this.wrapper.addEventListener(
+      eventName,
+      (evt) => {
+        const possibleTargets = Array.prototype.slice.call(this.wrapper.querySelectorAll(selector));
+        const target = evt.target;
 
-    this.wrapper.addEventListener(eventName, (evt) => {
-      const possibleTargets = Array.prototype.slice.call(this.wrapper.querySelectorAll(selector));
-      const target = evt.target;
-
-      possibleTargets.forEach((possibleTarget) => {
-        let el = target;
-        while (el && el !== this.wrapper) {
-          if (el === possibleTarget) {
-            return fn.call(possibleTarget, evt, possibleTarget);
+        possibleTargets.forEach((possibleTarget) => {
+          let el = target;
+          while (el && el !== this.wrapper) {
+            if (el === possibleTarget) {
+              return fn.call(possibleTarget, evt, possibleTarget);
+            }
+            el = el.parentNode;
           }
-          el = el.parentNode;
-        }
-        return el;
-      });
-    }, eventName === 'blur');
+          return el;
+        });
+      },
+      eventName === 'blur'
+    );
   }
 }

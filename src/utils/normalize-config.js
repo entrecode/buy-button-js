@@ -27,7 +27,12 @@ function normalizeConfig(config, baseResourceType = 'Product') {
   }
 
   if (config.variantId || config.storefrontVariantId) {
-    config.storefrontVariantId = getNormalizedIdFromConfig('ProductVariant', config, 'variantId', 'storefrontVariantId');
+    config.storefrontVariantId = getNormalizedIdFromConfig(
+      'ProductVariant',
+      config,
+      'variantId',
+      'storefrontVariantId'
+    );
   }
 
   return config;

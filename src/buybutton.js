@@ -11,7 +11,7 @@ import 'core-js/features/object/values';
 
 class UpdatedShopifyBuy extends ShopifyBuy {
   static buildClient(config) {
-    const newConfig = Object.assign({}, config, {source: 'buy-button-js'});
+    const newConfig = Object.assign({}, config, { source: 'buy-button-js' });
     return super.buildClient(newConfig);
   }
 }

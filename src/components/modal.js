@@ -9,7 +9,6 @@ import ModalUpdater from '../updaters/modal';
  * @extends Component.
  */
 export default class Modal extends Component {
-
   /**
    * create Modal.
    * @param {Object} config - configuration object.
@@ -18,7 +17,9 @@ export default class Modal extends Component {
   constructor(config, props) {
     super(config, props);
     this.typeKey = 'modal';
-    this.node = config.node ? config.node.appendChild(document.createElement('div')) : document.body.appendChild(document.createElement('div'));
+    this.node = config.node
+      ? config.node.appendChild(document.createElement('div'))
+      : document.body.appendChild(document.createElement('div'));
     this.node.className = 'shopify-buy-modal-wrapper';
     this.product = null;
     this.updater = new ModalUpdater(this);
@@ -31,9 +32,13 @@ export default class Modal extends Component {
    * @return {Object}
    */
   get DOMEvents() {
-    return Object.assign({}, {
-      [`click ${this.selectors.modal.close}`]: this.props.closeModal.bind(this),
-    }, this.options.DOMEvents);
+    return Object.assign(
+      {},
+      {
+        [`click ${this.selectors.modal.close}`]: this.props.closeModal.bind(this),
+      },
+      this.options.DOMEvents
+    );
   }
 
   /**
@@ -59,7 +64,7 @@ export default class Modal extends Component {
    * Creates and initializes product component.
    * @param {Object} [data] - data to initialize model with.
    * @return {Promise} promise resolving to instance.
-  */
+   */
   init(data) {
     this.isVisible = true;
     return super.init(data).then(() => {

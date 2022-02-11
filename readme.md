@@ -16,8 +16,8 @@ yarn
 cp index.example.html index.html
 ```
 
-* Add your API key and shop domain to index.html
-* Set a product ID in index.html
+- Add your API key and shop domain to index.html
+- Set a product ID in index.html
 
 ```
 yarn run start
@@ -51,6 +51,7 @@ gem install jekyll
 ```
 yarn run docs
 ```
+
 Doc server will run at http://localhost:4000/buy-button-js/
 Docs source files are located in /docs.
 Docs are automatically deployed to gh-pages from master.

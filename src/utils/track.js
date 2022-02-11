@@ -16,16 +16,16 @@ export default class Tracker {
       }
       self.callLib(event, properties);
       return returnValue;
-    }
+    };
   }
 
   callLib(eventName, properties) {
-    switch(eventName) {
+    switch (eventName) {
       case 'Update Cart':
         if (properties.quantity < 1) {
           return this.track('Removed Product', properties);
         }
-        if (properties.prevQuantity && (properties.quantity < properties.prevQuantity)) {
+        if (properties.prevQuantity && properties.quantity < properties.prevQuantity) {
           return;
         }
         return this.track('Added Product', properties);
@@ -41,7 +41,7 @@ export default class Tracker {
   }
 
   trackComponent(type, properties) {
-    switch(type) {
+    switch (type) {
       case 'product':
         return this.track('Viewed Product', properties);
       case 'collection':

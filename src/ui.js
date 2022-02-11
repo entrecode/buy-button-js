@@ -14,7 +14,6 @@ const ESC_KEY = 27;
 
 /** Initializes and coordinates components. */
 export default class UI {
-
   /**
    * create a UI instance
    * @param {Object} client - Instance of ShopifyBuy Client
@@ -66,17 +65,20 @@ export default class UI {
       this._bindEsc(component.iframe.el.contentWindow || component.iframe.el);
     }
     this.components[type].push(component);
-    return component.init().then(() => {
-      this.trackComponent(type, component);
-      return component;
-    }).catch((error) => {
-      if (this.errorReporter) {
-        this.errorReporter.notifyException(error);
-      }
+    return component
+      .init()
+      .then(() => {
+        this.trackComponent(type, component);
+        return component;
+      })
+      .catch((error) => {
+        if (this.errorReporter) {
+          this.errorReporter.notifyException(error);
+        }
 
-      // eslint-disable-next-line
-      console.error(error);
-    });
+        // eslint-disable-next-line
+        console.error(error);
+      });
   }
 
   trackComponent(type, component) {

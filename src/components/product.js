@@ -60,7 +60,6 @@ function whitelistedProperties(selectorStyles) {
  */
 
 export default class Product extends Component {
-
   /**
    * create Product.
    * @param {Object} config - configuration object.
@@ -74,7 +73,11 @@ export default class Product extends Component {
     this.typeKey = 'product';
     this.defaultStorefrontVariantId = config.storefrontVariantId;
     this.cachedImage = null;
-    this.childTemplate = new Template(this.config.option.templates, this.config.option.contents, this.config.option.order);
+    this.childTemplate = new Template(
+      this.config.option.templates,
+      this.config.option.contents,
+      this.config.option.order
+    );
     this.cart = null;
     this.modal = null;
     this.imgStyle = '';
@@ -168,7 +171,7 @@ export default class Product extends Component {
       altText = this.imageAltText(this.selectedVariant.image.altText);
     }
 
-    return {id, src, srcLarge, srcOriginal, altText};
+    return { id, src, srcLarge, srcOriginal, altText };
   }
 
   /**
@@ -270,7 +273,7 @@ export default class Product extends Component {
       return {
         id: image.id,
         src: image.src,
-        carouselSrc: this.props.client.image.helpers.imageForSize(image, {maxWidth: 100, maxHeight: 100}),
+        carouselSrc: this.props.client.image.helpers.imageForSize(image, { maxWidth: 100, maxHeight: 100 }),
         isSelected: image.id === this.currentImage.id,
         altText: this.imageAltText(image.altText),
       };
@@ -284,7 +287,9 @@ export default class Product extends Component {
   }
 
   get quantityClass() {
-    return this.options.contents.quantityIncrement || this.options.contents.quantityDecrement ? this.classes.product.quantityWithButtons : '';
+    return this.options.contents.quantityIncrement || this.options.contents.quantityDecrement
+      ? this.classes.product.quantityWithButtons
+      : '';
   }
 
   get buttonText() {
@@ -301,7 +306,10 @@ export default class Product extends Component {
   }
 
   get buttonEnabled() {
-    return this.options.buttonDestination === 'modal' || (this.buttonActionAvailable && this.variantExists && this.variantInStock);
+    return (
+      this.options.buttonDestination === 'modal' ||
+      (this.buttonActionAvailable && this.variantExists && this.variantInStock)
+    );
   }
 
   get variantExists() {
@@ -347,24 +355,28 @@ export default class Product extends Component {
    * @return {Object}
    */
   get DOMEvents() {
-    return merge({}, {
-      click: this.closeCartOnBgClick.bind(this),
-      [`click ${this.selectors.option.select}`]: this.stopPropagation.bind(this),
-      [`focus ${this.selectors.option.select}`]: this.stopPropagation.bind(this),
-      [`click ${this.selectors.option.wrapper}`]: this.stopPropagation.bind(this),
-      [`click ${this.selectors.product.quantityInput}`]: this.stopPropagation.bind(this),
-      [`click ${this.selectors.product.quantityButton}`]: this.stopPropagation.bind(this),
-      [`change ${this.selectors.option.select}`]: this.onOptionSelect.bind(this),
-      [`click ${this.selectors.product.button}`]: this.onButtonClick.bind(this),
-      [`click ${this.selectors.product.blockButton}`]: this.onButtonClick.bind(this),
-      [`keyup ${this.selectors.product.blockButton}`]: this.onBlockButtonKeyup.bind(this),
-      [`click ${this.selectors.product.quantityIncrement}`]: this.onQuantityIncrement.bind(this, 1),
-      [`click ${this.selectors.product.quantityDecrement}`]: this.onQuantityIncrement.bind(this, -1),
-      [`blur ${this.selectors.product.quantityInput}`]: this.onQuantityBlur.bind(this),
-      [`click ${this.selectors.product.carouselItem}`]: this.onCarouselItemClick.bind(this),
-      [`click ${this.selectors.product.carouselNext}`]: this.onCarouselChange.bind(this, 1),
-      [`click ${this.selectors.product.carouselPrevious}`]: this.onCarouselChange.bind(this, -1),
-    }, this.options.DOMEvents);
+    return merge(
+      {},
+      {
+        click: this.closeCartOnBgClick.bind(this),
+        [`click ${this.selectors.option.select}`]: this.stopPropagation.bind(this),
+        [`focus ${this.selectors.option.select}`]: this.stopPropagation.bind(this),
+        [`click ${this.selectors.option.wrapper}`]: this.stopPropagation.bind(this),
+        [`click ${this.selectors.product.quantityInput}`]: this.stopPropagation.bind(this),
+        [`click ${this.selectors.product.quantityButton}`]: this.stopPropagation.bind(this),
+        [`change ${this.selectors.option.select}`]: this.onOptionSelect.bind(this),
+        [`click ${this.selectors.product.button}`]: this.onButtonClick.bind(this),
+        [`click ${this.selectors.product.blockButton}`]: this.onButtonClick.bind(this),
+        [`keyup ${this.selectors.product.blockButton}`]: this.onBlockButtonKeyup.bind(this),
+        [`click ${this.selectors.product.quantityIncrement}`]: this.onQuantityIncrement.bind(this, 1),
+        [`click ${this.selectors.product.quantityDecrement}`]: this.onQuantityIncrement.bind(this, -1),
+        [`blur ${this.selectors.product.quantityInput}`]: this.onQuantityBlur.bind(this),
+        [`click ${this.selectors.product.carouselItem}`]: this.onCarouselItemClick.bind(this),
+        [`click ${this.selectors.product.carouselNext}`]: this.onCarouselChange.bind(this, 1),
+        [`click ${this.selectors.product.carouselPrevious}`]: this.onCarouselChange.bind(this, -1),
+      },
+      this.options.DOMEvents
+    );
   }
 
   /**
@@ -390,8 +402,8 @@ export default class Product extends Component {
       const data = merge(option, this.options.viewData);
       data.classes = this.classes;
       data.selectId = `Option-${uniqueId}-${index}`;
-      data.onlyOption = (this.model.options.length === 1);
-      return acc + this.childTemplate.render({data});
+      data.onlyOption = this.model.options.length === 1;
+      return acc + this.childTemplate.render({ data });
     }, '');
   }
 
@@ -470,7 +482,9 @@ export default class Product extends Component {
   get trackingInfo() {
     const variant = this.selectedVariant || this.model.variants[0];
     const contents = this.options.contents;
-    const contentString = Object.keys(contents).filter((key) => contents[key]).toString();
+    const contentString = Object.keys(contents)
+      .filter((key) => contents[key])
+      .toString();
 
     return {
       id: this.model.id,
@@ -520,10 +534,14 @@ export default class Product extends Component {
   get modalProductConfig() {
     let modalProductStyles;
     if (this.config.product.styles) {
-      modalProductStyles = merge({}, Object.keys(this.config.product.styles).reduce((productStyles, selectorKey) => {
-        productStyles[selectorKey] = whitelistedProperties(this.config.product.styles[selectorKey]);
-        return productStyles;
-      }, {}), this.config.modalProduct.styles);
+      modalProductStyles = merge(
+        {},
+        Object.keys(this.config.product.styles).reduce((productStyles, selectorKey) => {
+          productStyles[selectorKey] = whitelistedProperties(this.config.product.styles[selectorKey]);
+          return productStyles;
+        }, {}),
+        this.config.modalProduct.styles
+      );
     } else {
       modalProductStyles = {};
     }
@@ -651,7 +669,11 @@ export default class Product extends Component {
     } else if (this.options.buttonDestination === 'cart') {
       this.props.closeModal();
       this._userEvent('addVariantToCart');
-      this.props.tracker.trackMethod(this.cart.addVariantToCart.bind(this), 'Update Cart', this.selectedVariantTrackingInfo)(this.selectedVariant, this.selectedQuantity);
+      this.props.tracker.trackMethod(
+        this.cart.addVariantToCart.bind(this),
+        'Update Cart',
+        this.selectedVariantTrackingInfo
+      )(this.selectedVariant, this.selectedQuantity);
       if (!this.modalProduct) {
         this.props.setActiveEl(target);
       }
@@ -667,7 +689,7 @@ export default class Product extends Component {
       let checkoutWindow;
 
       if (this.config.cart.popup && browserFeatures.windowOpen()) {
-        const params = (new Checkout(this.config)).params;
+        const params = new Checkout(this.config).params;
         checkoutWindow = window.open('', 'checkout', params);
       } else {
         checkoutWindow = window;
@@ -848,7 +870,9 @@ export default class Product extends Component {
   }
 
   get priceAccessibilityLabel() {
-    return this.hasCompareAtPrice ? this.options.text.salePriceAccessibilityLabel : this.options.text.regularPriceAccessibilityLabel;
+    return this.hasCompareAtPrice
+      ? this.options.text.salePriceAccessibilityLabel
+      : this.options.text.regularPriceAccessibilityLabel;
   }
 
   get compareAtPriceAccessibilityLabel() {

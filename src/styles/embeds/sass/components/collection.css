@@ -5,7 +5,7 @@
 .shopify-buy__collection-products {
   margin-left: calc(var(--gutter) * -1);
   text-align: center;
-  @media(min-width: 601px) {
+  @media (min-width: 601px) {
     margin-left: calc(var(--gutter-collection) * -1);
   }
 }
@@ -21,7 +21,7 @@
     margin-top: var(--gutter);
   }
 
-  @media(min-width: 601px) {
+  @media (min-width: 601px) {
     width: calc(25% - 20px);
     margin-left: var(--gutter-collection);
     margin-bottom: 50px;
@@ -32,7 +32,7 @@
   }
 }
 
-.shopify-buy__btn.shopify-buy__collection-pagination-button  {
+.shopify-buy__btn.shopify-buy__collection-pagination-button {
   display: none;
   margin: var(--gutter) auto;
 

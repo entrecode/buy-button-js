@@ -5,7 +5,7 @@
 .shopify-buy__cart-toggle {
   background-color: var(--color-primary);
   color: var(--color-white);
-  border-radius: 3px 0 0 3px;;
+  border-radius: 3px 0 0 3px;
   padding: 8px 10px;
   text-align: center;
   display: inline-block;
@@ -51,7 +51,7 @@
     position: relative;
 
     &:before {
-      content: "";
+      content: '';
       display: block;
       position: absolute;
       left: -12px;

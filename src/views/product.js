@@ -22,9 +22,13 @@ export default class ProductView extends View {
    */
   resizeOnLoad() {
     const productContents = this.component.config.product.contents;
-    if (!(productContents.img || productContents.imgWithCarousel)) { return; }
+    if (!(productContents.img || productContents.imgWithCarousel)) {
+      return;
+    }
     const image = this.wrapper.getElementsByClassName(this.component.classes.product.img)[0];
-    if (!image) { return; }
+    if (!image) {
+      return;
+    }
 
     image.addEventListener('load', () => {
       this.resize();
@@ -40,22 +44,23 @@ export default class ProductView extends View {
     this.resizeOnLoad();
   }
 
-
   get wrapperClass() {
-    return `${this.component.currentImage ? 'has-image' : 'no-image'} ${this.component.classes.product[this.component.options.layout]}`;
+    return `${this.component.currentImage ? 'has-image' : 'no-image'} ${
+      this.component.classes.product[this.component.options.layout]
+    }`;
   }
 
   wrapTemplate(html) {
     let ariaLabel;
     switch (this.component.options.buttonDestination) {
-    case 'modal':
-      ariaLabel = 'View details';
-      break;
-    case 'cart':
-      ariaLabel = 'Add to cart';
-      break;
-    default:
-      ariaLabel = 'Buy Now';
+      case 'modal':
+        ariaLabel = 'View details';
+        break;
+      case 'cart':
+        ariaLabel = 'Add to cart';
+        break;
+      default:
+        ariaLabel = 'Buy Now';
     }
 
     if (this.component.isButton) {
@@ -64,5 +69,4 @@ export default class ProductView extends View {
       return `<div class="${this.wrapperClass} ${this.component.classes.product.product}">${html}</div>`;
     }
   }
-
 }

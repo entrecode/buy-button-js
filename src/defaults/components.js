@@ -160,7 +160,8 @@ const defaults = {
     templates: {
       title: '<h2 class="{{data.classes.productSet.title}}">{{data.collection.attrs.title}}</h2>',
       products: '<div class="{{data.classes.productSet.products}}"></div>',
-      pagination: '<button class="{{data.classes.productSet.paginationButton}} {{data.nextButtonClass}}">{{data.text.nextPageButton}}</button>',
+      pagination:
+        '<button class="{{data.classes.productSet.paginationButton}} {{data.nextButtonClass}}">{{data.text.nextPageButton}}</button>',
     },
     classes: {
       wrapper: 'shopify-buy__collection-wrapper',
@@ -255,14 +256,7 @@ const defaults = {
       quantityDecrement: true,
       quantityInput: true,
     },
-    order: [
-      'image',
-      'title',
-      'variantTitle',
-      'price',
-      'priceWithDiscounts',
-      'quantity',
-    ],
+    order: ['image', 'title', 'variantTitle', 'price', 'priceWithDiscounts', 'quantity'],
     classes: {
       lineItem: 'shopify-buy__cart-item',
       image: 'shopify-buy__cart-item__image',
@@ -295,11 +289,7 @@ const defaults = {
       icon: true,
       title: false,
     },
-    order: [
-      'count',
-      'icon',
-      'title',
-    ],
+    order: ['count', 'icon', 'title'],
     classes: {
       wrapper: 'shopify-buy__cart-toggle-wrapper',
       toggle: 'shopify-buy__cart-toggle',

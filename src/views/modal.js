@@ -1,6 +1,6 @@
 import View from '../view';
-import {addClassToElement, removeClassFromElement} from '../utils/element-class';
-import {removeTrapFocus} from '../utils/focus';
+import { addClassToElement, removeClassFromElement } from '../utils/element-class';
+import { removeTrapFocus } from '../utils/focus';
 
 export default class ModalView extends View {
   wrapTemplate(html) {

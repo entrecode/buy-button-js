@@ -11,7 +11,7 @@ function formatWithDelimiters(number, precision = 2, thousands = ',', decimal = 
   const fixedNumber = (number / 100.0).toFixed(precision);
   const parts = fixedNumber.split('.');
   const dollars = parts[0].replace(thousandsRegex, `$1${thousands}`);
-  const cents = parts[1] ? (decimal + parts[1]) : '';
+  const cents = parts[1] ? decimal + parts[1] : '';
 
   return dollars + cents;
 }
@@ -33,23 +33,23 @@ export default function formatMoney(amount, format) {
   }
 
   switch (placeholderMatch[1]) {
-  case 'amount':
-    value = formatWithDelimiters(cents);
-    break;
-  case 'amount_no_decimals':
-    value = formatWithDelimiters(cents, 0);
-    break;
-  case 'amount_with_comma_separator':
-    value = formatWithDelimiters(cents, 2, '.', ',');
-    break;
-  case 'amount_no_decimals_with_comma_separator':
-    value = formatWithDelimiters(cents, 0, '.', ',');
-    break;
-  case 'amount_no_decimals_with_space_separator':
-    value = formatWithDelimiters(cents, 0, ' ');
-    break;
-  default:
-    value = formatWithDelimiters(cents);
+    case 'amount':
+      value = formatWithDelimiters(cents);
+      break;
+    case 'amount_no_decimals':
+      value = formatWithDelimiters(cents, 0);
+      break;
+    case 'amount_with_comma_separator':
+      value = formatWithDelimiters(cents, 2, '.', ',');
+      break;
+    case 'amount_no_decimals_with_comma_separator':
+      value = formatWithDelimiters(cents, 0, '.', ',');
+      break;
+    case 'amount_no_decimals_with_space_separator':
+      value = formatWithDelimiters(cents, 0, ' ');
+      break;
+    default:
+      value = formatWithDelimiters(cents);
   }
 
   return formatString.replace(placeholderRegex, value);

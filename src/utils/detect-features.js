@@ -1,17 +1,19 @@
-function detectCSSFeature(featurename){
+function detectCSSFeature(featurename) {
   var feature = false,
-  domPrefixes = 'Webkit Moz ms O'.split(' '),
-  elm = document.createElement('div'),
-  featurenameCapital = null;
+    domPrefixes = 'Webkit Moz ms O'.split(' '),
+    elm = document.createElement('div'),
+    featurenameCapital = null;
 
   featurename = featurename.toLowerCase();
 
-  if( elm.style[featurename] !== undefined ) { feature = true; }
+  if (elm.style[featurename] !== undefined) {
+    feature = true;
+  }
 
-  if( feature === false ) {
+  if (feature === false) {
     featurenameCapital = featurename.charAt(0).toUpperCase() + featurename.substr(1);
-    for( var i = 0; i < domPrefixes.length; i++ ) {
-      if( elm.style[domPrefixes[i] + featurenameCapital ] !== undefined ) {
+    for (var i = 0; i < domPrefixes.length; i++) {
+      if (elm.style[domPrefixes[i] + featurenameCapital] !== undefined) {
         feature = true;
         break;
       }
@@ -20,17 +22,17 @@ function detectCSSFeature(featurename){
   return feature;
 }
 
-var supportsAnimations = function() {
+var supportsAnimations = function () {
   return detectCSSFeature('animation');
-}
+};
 
-var supportsTransitions = function() {
+var supportsTransitions = function () {
   return detectCSSFeature('transition');
-}
+};
 
-var supportsTransforms = function() {
+var supportsTransforms = function () {
   return detectCSSFeature('transform');
-}
+};
 
 const supportsWindowOpen = () => {
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
@@ -41,11 +43,11 @@ const supportsWindowOpen = () => {
   return !unSupportedApps.some((appName) => {
     return userAgent.indexOf(appName) > -1;
   });
-}
+};
 
 export default {
   animation: supportsAnimations(),
   transition: supportsTransitions(),
   transform: supportsTransforms(),
   windowOpen: supportsWindowOpen,
-}
+};

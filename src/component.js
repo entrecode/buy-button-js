@@ -15,7 +15,6 @@ function moneyFormat(format = defaultMoneyFormat) {
  * Manages rendering, lifecycle, and data fetching of a cmoponent.
  */
 export default class Component {
-
   /**
    * creates a component.
    * @param {Object} config - configuration object.
@@ -83,10 +82,12 @@ export default class Component {
    * @return {Object} class keys and names.
    */
   get classes() {
-    return this.options.manifest.filter((component) => this.config[component].classes).reduce((hash, component) => {
-      hash[component] = this.config[component].classes;
-      return hash;
-    }, {});
+    return this.options.manifest
+      .filter((component) => this.config[component].classes)
+      .reduce((hash, component) => {
+        hash[component] = this.config[component].classes;
+        return hash;
+      }, {});
   }
 
   /**
@@ -94,13 +95,15 @@ export default class Component {
    * @return {Object} class keys and selectors.
    */
   get selectors() {
-    return this.options.manifest.filter((component) => this.config[component].classes).reduce((hash, component) => {
-      hash[component] = Object.keys(this.config[component].classes).reduce((classes, classKey) => {
-        classes[classKey] = `.${this.classes[component][classKey].split(' ').join('.')}`;
-        return classes;
+    return this.options.manifest
+      .filter((component) => this.config[component].classes)
+      .reduce((hash, component) => {
+        hash[component] = Object.keys(this.config[component].classes).reduce((classes, classKey) => {
+          classes[classKey] = `.${this.classes[component][classKey].split(' ').join('.')}`;
+          return classes;
+        }, {});
+        return hash;
       }, {});
-      return hash;
-    }, {});
   }
 
   /**
@@ -108,10 +111,12 @@ export default class Component {
    * @return {Object} key-value pairs of CSS styles.
    */
   get styles() {
-    return this.options.manifest.filter((component) => this.config[component].styles).reduce((hash, component) => {
-      hash[component] = this.config[component].styles;
-      return hash;
-    }, {});
+    return this.options.manifest
+      .filter((component) => this.config[component].styles)
+      .reduce((hash, component) => {
+        hash[component] = this.config[component].styles;
+        return hash;
+      }, {});
   }
 
   /**
@@ -159,19 +164,22 @@ export default class Component {
    */
   init(data) {
     this._userEvent('beforeInit');
-    return this.view.init().then(() => this.setupModel(data)).then((model) => {
-      this.model = model;
-      this.view.render();
-      this.view.delegateEvents();
-      this._userEvent('afterInit');
-      return this;
-    })
-    .catch((err) => {
-      if (err.message.indexOf('Not Found') > -1) {
-        logNotFound(this);
-      }
-      throw err;
-    });
+    return this.view
+      .init()
+      .then(() => this.setupModel(data))
+      .then((model) => {
+        this.model = model;
+        this.view.render();
+        this.view.delegateEvents();
+        this._userEvent('afterInit');
+        return this;
+      })
+      .catch((err) => {
+        if (err.message.indexOf('Not Found') > -1) {
+          logNotFound(this);
+        }
+        throw err;
+      });
   }
 
   /**
